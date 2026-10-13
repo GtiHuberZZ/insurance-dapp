@@ -1,88 +1,103 @@
 import { artifacts, deployScript } from "../rocketh/deploy.js";
-import { parseEther } from "viem";
+import { keccak256, toBytes } from "viem";
 
-/**
- * Deploys "Corn", "CornDEX", "Lending" and "MovePrice" using the deployer account.
- *
- * On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
- *
- * When deploying to live networks (e.g `yarn deploy --network sepolia`), the deployer account
- * should have sufficient balance to pay for the gas fees for contract creation.
- *
- * You can generate a random account with `yarn generate` or `yarn account:import` to import your
- * existing PK which will fill DEPLOYER_PRIVATE_KEY_ENCRYPTED in the .env file (used in hardhat.config.ts).
- * Run `yarn account` to check the deployer balance on every network.
- */
 export default deployScript(
   async env => {
     const { deployer } = env.namedAccounts;
+    console.log("Deployer:", deployer);
 
-    const cornToken = await env.deploy("Corn", {
+    // 1. MockUSDC
+    const usdc = await env.deploy("MockUSDC", {
       account: deployer,
-      artifact: artifacts.Corn,
+      artifact: artifacts.MockUSDC,
       args: [],
     });
 
-    const cornDEX = await env.deploy("CornDEX", {
+    // 2. PolicyNFT
+    const policyNFT = await env.deploy("PolicyNFT", {
       account: deployer,
-      artifact: artifacts.CornDEX,
-      args: [cornToken.address],
+      artifact: artifacts.PolicyNFT,
+      args: [deployer],
     });
 
-    const lending = await env.deploy("Lending", {
+    // 3. InsurancePool
+    const pool = await env.deploy("InsurancePool", {
       account: deployer,
-      artifact: artifacts.Lending,
-      args: [cornDEX.address, cornToken.address],
+      artifact: artifacts.InsurancePool,
+      args: [usdc.address, deployer],
     });
 
-    // Set up the move price contract
-    const movePrice = await env.deploy("MovePrice", {
+    // 4. Insurance
+    const insurance = await env.deploy("Insurance", {
       account: deployer,
-      artifact: artifacts.MovePrice,
-      args: [cornDEX.address, cornToken.address],
+      artifact: artifacts.Insurance,
+      args: [pool.address, policyNFT.address, usdc.address, deployer, 60],
     });
 
-    // Only set up contract state on local network
+    // 5. Oracle
+    const oracle = await env.deploy("Oracle", {
+      account: deployer,
+      artifact: artifacts.Oracle,
+      args: [insurance.address, deployer],
+    });
+
+    // 6. PolicyMarket  ← 新增
+    const market = await env.deploy("PolicyMarket", {
+      account: deployer,
+      artifact: artifacts.PolicyMarket,
+      args: [
+        usdc.address,
+        policyNFT.address,
+        deployer, // admin
+        deployer, // feeRecipient
+        200, // feeBps = 2%
+      ],
+    });
+
+    // 7. 授予 INSURER_ROLE
+    const INSURER_ROLE = keccak256(toBytes("INSURER_ROLE"));
+    await env.execute(policyNFT, {
+      functionName: "grantRole",
+      args: [INSURER_ROLE, insurance.address],
+      account: deployer,
+    });
+    await env.execute(pool, {
+      functionName: "grantRole",
+      args: [INSURER_ROLE, insurance.address],
+      account: deployer,
+    });
+
+    // 8. 配置 Oracle
+    await env.execute(insurance, {
+      functionName: "setOracle",
+      args: [oracle.address],
+      account: deployer,
+    });
+
+    // 9. 授予 REPORTER_ROLE
+    const REPORTER_ROLE = keccak256(toBytes("REPORTER_ROLE"));
+    await env.execute(oracle, {
+      functionName: "grantRole",
+      args: [REPORTER_ROLE, deployer],
+      account: deployer,
+    });
+
+    // 10. 本地测试：mint 10000 USDC 给 deployer
     if (env.name === "default" || env.name === "localhost") {
-      // Give ETH and CORN to the move price contract
-      await env.network.provider.request<{ params: [`0x${string}`, `0x${string}`]; result: null }>({
-        method: "hardhat_setBalance",
-        params: [movePrice.address, `0x${parseEther("10000000000000000000000").toString(16)}`],
-      });
-      await env.execute(cornToken, {
-        functionName: "mintTo",
-        args: [movePrice.address, parseEther("10000000000000000000000")],
-        account: deployer,
-      });
-      // Lenders deposit CORN to the lending contract
-      await env.execute(cornToken, {
-        functionName: "mintTo",
-        args: [lending.address, parseEther("10000000000000000000000")],
-        account: deployer,
-      });
-      // Give CORN and ETH to the deployer
-      await env.execute(cornToken, {
-        functionName: "mintTo",
-        args: [deployer, parseEther("1000000000000")],
-        account: deployer,
-      });
-      await env.network.provider.request<{ params: [`0x${string}`, `0x${string}`]; result: null }>({
-        method: "hardhat_setBalance",
-        params: [deployer, `0x${parseEther("100000000000").toString(16)}`],
-      });
-
-      await env.execute(cornToken, {
-        functionName: "approve",
-        args: [cornDEX.address, parseEther("1000000000")],
-        account: deployer,
-      });
-      await env.execute(cornDEX, {
-        functionName: "init",
-        args: [parseEther("1000000000")],
-        value: parseEther("1000000"),
+      await env.execute(usdc, {
+        functionName: "mint",
+        args: [deployer, 10_000_000_000n],
         account: deployer,
       });
     }
+
+    // 日志
+    console.log("MockUSDC:      ", usdc.address);
+    console.log("PolicyNFT:     ", policyNFT.address);
+    console.log("InsurancePool: ", pool.address);
+    console.log("Insurance:     ", insurance.address);
+    console.log("Oracle:        ", oracle.address);
+    console.log("PolicyMarket:  ", market.address);
   },
-  { tags: ["Lending"] },
+  { tags: ["Insurance"] },
 );
