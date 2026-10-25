@@ -71,12 +71,12 @@ export const AddressInfoDropdown = ({
               {isAddressCopiedToClipboard ? (
                 <>
                   <CheckCircleIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Copied!</span>
+                  <span className="whitespace-nowrap">已复制</span>
                 </>
               ) : (
                 <>
                   <DocumentDuplicateIcon className="text-xl font-normal h-6 w-4 ml-2 sm:ml-0" aria-hidden="true" />
-                  <span className="whitespace-nowrap">Copy address</span>
+                  <span className="whitespace-nowrap">复制地址</span>
                 </>
               )}
             </div>
@@ -84,7 +84,7 @@ export const AddressInfoDropdown = ({
           <li className={selectingNetwork ? "hidden" : ""}>
             <label htmlFor="qrcode-modal" className="h-8 btn-sm flex gap-3 py-3">
               <QrCodeIcon className="h-6 w-4 ml-2 sm:ml-0" />
-              <span className="whitespace-nowrap">View QR Code</span>
+              <span className="whitespace-nowrap">查看二维码</span>
             </label>
           </li>
           <li className={selectingNetwork ? "hidden" : ""}>
@@ -96,7 +96,7 @@ export const AddressInfoDropdown = ({
                 rel="noopener noreferrer"
                 className="whitespace-nowrap"
               >
-                View on Block Explorer
+                在区块浏览器中查看
               </a>
             </button>
           </li>
@@ -109,7 +109,7 @@ export const AddressInfoDropdown = ({
                   setSelectingNetwork(true);
                 }}
               >
-                <ArrowsRightLeftIcon className="h-6 w-4 ml-2 sm:ml-0" /> <span>Switch Network</span>
+                <ArrowsRightLeftIcon className="h-6 w-4 ml-2 sm:ml-0" /> <span>切换网络</span>
               </button>
             </li>
           ) : null}
@@ -117,7 +117,7 @@ export const AddressInfoDropdown = ({
             <li>
               <label htmlFor="reveal-burner-pk-modal" className="h-8 btn-sm flex gap-3 py-3 text-error">
                 <EyeIcon className="h-6 w-4 ml-2 sm:ml-0" />
-                <span>Reveal Private Key</span>
+                <span>查看私钥</span>
               </label>
             </li>
           ) : null}
@@ -127,7 +127,7 @@ export const AddressInfoDropdown = ({
               type="button"
               onClick={() => disconnect()}
             >
-              <ArrowLeftEndOnRectangleIcon className="h-6 w-4 ml-2 sm:ml-0" /> <span>Disconnect</span>
+              <ArrowLeftEndOnRectangleIcon className="h-6 w-4 ml-2 sm:ml-0" /> <span>断开连接</span>
             </button>
           </li>
         </ul>

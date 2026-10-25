@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     Insurance: {
-      address: "0xc3e53f4d16ae77db1c982e75a937b9f60fe63690",
+      address: "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
       abi: [
         {
           inputs: [
@@ -669,10 +669,10 @@ const deployedContracts = {
         revokeRole: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
         supportsInterface: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
       },
-      deployedOnBlock: 32,
+      deployedOnBlock: 4,
     },
     InsurancePool: {
-      address: "0xe6e340d132b5f46d1e472debcd681b2abc16e57e",
+      address: "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
       abi: [
         {
           inputs: [
@@ -1359,10 +1359,10 @@ const deployedContracts = {
         revokeRole: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
         supportsInterface: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
       },
-      deployedOnBlock: 31,
+      deployedOnBlock: 3,
     },
     MockUSDC: {
-      address: "0xc5a5c42992decbae36851359345fe25997f5c42d",
+      address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
       abi: [
         {
           inputs: [],
@@ -1707,10 +1707,10 @@ const deployedContracts = {
         transfer: "npm/@openzeppelin/contracts@5.7.0/token/ERC20/ERC20.sol",
         transferFrom: "npm/@openzeppelin/contracts@5.7.0/token/ERC20/ERC20.sol",
       },
-      deployedOnBlock: 29,
+      deployedOnBlock: 1,
     },
     Oracle: {
-      address: "0x84ea74d481ee0a5332c457a4d796187f6ba67feb",
+      address: "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
       abi: [
         {
           inputs: [
@@ -2067,10 +2067,10 @@ const deployedContracts = {
         revokeRole: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
         supportsInterface: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
       },
-      deployedOnBlock: 33,
+      deployedOnBlock: 5,
     },
     PolicyMarket: {
-      address: "0x9e545e3c0baab3e08cdfd552c960a1050f373042",
+      address: "0x5fc8d32690cc91d4c39d9d3abcbd16989f875707",
       abi: [
         {
           inputs: [
@@ -2623,10 +2623,10 @@ const deployedContracts = {
         revokeRole: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
         supportsInterface: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
       },
-      deployedOnBlock: 34,
+      deployedOnBlock: 6,
     },
     PolicyNFT: {
-      address: "0x67d269191c92caf3cd7723f116c85e6e9bf55933",
+      address: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
       abi: [
         {
           inputs: [
@@ -3520,7 +3520,7 @@ const deployedContracts = {
         renounceRole: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
         revokeRole: "npm/@openzeppelin/contracts@5.7.0/access/AccessControl.sol",
       },
-      deployedOnBlock: 30,
+      deployedOnBlock: 2,
     },
   },
 } as const;

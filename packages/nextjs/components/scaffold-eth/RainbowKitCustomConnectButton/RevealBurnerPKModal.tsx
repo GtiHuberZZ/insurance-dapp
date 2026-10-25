@@ -14,9 +14,9 @@ export const RevealBurnerPKModal = () => {
     try {
       const storage = rainbowkitBurnerWallet.useSessionStorage ? sessionStorage : localStorage;
       const burnerPK = storage?.getItem(BURNER_WALLET_PK_KEY);
-      if (!burnerPK) throw new Error("Burner wallet private key not found");
+      if (!burnerPK) throw new Error("未找到临时钱包私钥");
       await copyToClipboard(burnerPK);
-      notification.success("Burner wallet private key copied to clipboard");
+      notification.success("临时钱包私钥已复制到剪贴板");
     } catch (e) {
       const parsedError = getParsedError(e);
       notification.error(parsedError);
@@ -36,19 +36,16 @@ export const RevealBurnerPKModal = () => {
               ✕
             </label>
             <div>
-              <p className="text-lg font-semibold m-0 p-0">Copy Burner Wallet Private Key</p>
+              <p className="text-lg font-semibold m-0 p-0">复制临时钱包私钥</p>
               <div role="alert" className="alert alert-warning mt-4">
                 <ShieldExclamationIcon className="h-6 w-6" />
-                <span className="font-semibold">
-                  Burner wallets are intended for local development only and are not safe for storing real funds.
-                </span>
+                <span className="font-semibold">临时钱包仅用于本地开发，不适合存放真实资产。</span>
               </div>
               <p>
-                Your Private Key provides <strong>full access</strong> to your entire wallet and funds. This is
-                currently stored <strong>temporarily</strong> in your browser.
+                私钥可让你<strong>完全控制</strong>整个钱包及其资产。当前私钥仅<strong>临时</strong>保存在浏览器中。
               </p>
               <button className="btn btn-outline btn-error" onClick={handleCopyPK} disabled={isCopiedToClipboard}>
-                Copy Private Key To Clipboard
+                复制私钥到剪贴板
               </button>
             </div>
           </label>

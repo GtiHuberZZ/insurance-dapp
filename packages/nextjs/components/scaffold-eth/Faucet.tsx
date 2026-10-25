@@ -39,12 +39,12 @@ export const Faucet = () => {
       } catch (error) {
         notification.error(
           <>
-            <p className="font-bold mt-0 mb-1">Cannot connect to local provider</p>
+            <p className="font-bold mt-0 mb-1">无法连接本地节点</p>
             <p className="m-0">
-              - Did you forget to run <code className="italic bg-base-300 text-base font-bold">yarn chain</code> ?
+              - 是否忘记运行 <code className="italic bg-base-300 text-base font-bold">yarn chain</code>？
             </p>
             <p className="mt-1 break-normal">
-              - Or you can change <code className="italic bg-base-300 text-base font-bold">targetNetwork</code> in{" "}
+              - 或者修改 <code className="italic bg-base-300 text-base font-bold">targetNetwork</code>，配置文件位于{" "}
               <code className="italic bg-base-300 text-base font-bold">scaffold.config.ts</code>
             </p>
           </>,
@@ -84,36 +84,36 @@ export const Faucet = () => {
     <div>
       <label htmlFor="faucet-modal" className="btn btn-primary btn-sm font-normal gap-1">
         <BanknotesIcon className="h-4 w-4" />
-        <span>Faucet</span>
+        <span>水龙头</span>
       </label>
       <input type="checkbox" id="faucet-modal" className="modal-toggle" />
       <label htmlFor="faucet-modal" className="modal cursor-pointer">
         <label className="modal-box relative">
           {/* dummy input to capture event onclick on modal box */}
           <input className="h-0 w-0 absolute top-0 left-0" />
-          <h3 className="text-xl font-bold mb-3">Local Faucet</h3>
+          <h3 className="text-xl font-bold mb-3">本地测试水龙头</h3>
           <label htmlFor="faucet-modal" className="btn btn-ghost btn-sm absolute right-3 top-3">
             ✕
           </label>
           <div className="space-y-3">
             <div className="flex space-x-4">
               <div>
-                <span className="text-sm font-bold">From:</span>
+                <span className="text-sm font-bold">来源：</span>
                 <Address address={faucetAddress} onlyEnsOrAddress chain={targetNetwork} />
               </div>
               <div>
-                <span className="text-sm font-bold pl-3">Available:</span>
+                <span className="text-sm font-bold pl-3">可用余额：</span>
                 <Balance address={faucetAddress} />
               </div>
             </div>
             <div className="flex flex-col space-y-3">
               <AddressInput
-                placeholder="Destination Address"
+                placeholder="接收地址"
                 value={inputAddress ?? ""}
                 onChange={value => setInputAddress(value as AddressType)}
               />
               <EtherInput
-                placeholder="Amount to send"
+                placeholder="发送金额"
                 onValueChange={({ valueInEth }) => setSendValue(valueInEth)}
                 style={{ width: "100%" }}
               />
@@ -123,7 +123,7 @@ export const Faucet = () => {
                 ) : (
                   <span className="loading loading-spinner loading-sm"></span>
                 )}
-                <span>Send</span>
+                <span>发送</span>
               </button>
             </div>
           </div>

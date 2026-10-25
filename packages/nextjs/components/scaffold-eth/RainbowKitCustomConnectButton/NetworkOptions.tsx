@@ -31,7 +31,7 @@ export const NetworkOptions = ({ hidden = false }: NetworkOptionsProps) => {
             >
               <ArrowsRightLeftIcon className="h-6 w-4 ml-2 sm:ml-0" />
               <span>
-                Switch to{" "}
+                切换到{" "}
                 <span
                   style={{
                     color: getNetworkColor(allowedNetwork, isDarkMode),

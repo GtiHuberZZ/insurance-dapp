@@ -8,7 +8,7 @@ export const WrongNetworkDropdown = () => {
   return (
     <div className="dropdown dropdown-end mr-2">
       <label tabIndex={0} className="btn btn-error btn-sm dropdown-toggle gap-1">
-        <span>Wrong network</span>
+        <span>网络不匹配</span>
         <ChevronDownIcon className="h-6 w-4 ml-2 sm:ml-0" />
       </label>
       <ul tabIndex={0} className="dropdown-content menu p-2 mt-1 shadow-lg bg-base-200 gap-1">
@@ -16,7 +16,7 @@ export const WrongNetworkDropdown = () => {
         <li>
           <button className="menu-item text-error btn-sm flex gap-3 py-3" type="button" onClick={() => disconnect()}>
             <ArrowLeftEndOnRectangleIcon className="h-6 w-4 ml-2 sm:ml-0" />
-            <span>Disconnect</span>
+            <span>断开连接</span>
           </button>
         </li>
       </ul>

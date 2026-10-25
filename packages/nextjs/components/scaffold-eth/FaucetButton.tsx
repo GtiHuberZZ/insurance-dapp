@@ -55,13 +55,18 @@ export const FaucetButton = () => {
   return (
     <div
       className={
-        !isBalanceZero
-          ? "ml-1"
-          : "ml-1 tooltip tooltip-bottom tooltip-primary tooltip-open font-bold before:left-auto before:right-0 before:transform-none before:translate-none before:content-[attr(data-tip)]"
+        isBalanceZero
+          ? "ml-1 tooltip tooltip-bottom tooltip-primary font-bold before:left-auto before:right-0 before:transform-none before:translate-none before:content-[attr(data-tip)]"
+          : "ml-1"
       }
-      data-tip="Grab funds from faucet"
+      data-tip="从水龙头领取测试 ETH"
     >
-      <button className="btn btn-secondary btn-sm px-2" onClick={sendETH} disabled={loading}>
+      <button
+        className="btn btn-secondary btn-sm px-2"
+        onClick={sendETH}
+        disabled={loading}
+        aria-label="从水龙头领取测试 ETH"
+      >
         {!loading ? (
           <BanknotesIcon className="h-4 w-4" />
         ) : (
